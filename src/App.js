@@ -1,25 +1,34 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from 'react';
+import ReactMarkdown from 'react-markdown';
+import gfm from 'remark-gfm';
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    const [markdown, setMarkdown] = useState('# markdown preview');
+    return (
+        <main>
+            <section className='markdown'>
+                <textarea
+                    name='markdown'
+                    id='markdown'
+                    className='input'
+                    value={markdown}
+                    onChange={(e) => setMarkdown(e.target.value)}
+                >
+                    {markdown}
+                </textarea>
+                <article className='result'>
+                    <ReactMarkdown plugins={[gfm]}>{markdown}</ReactMarkdown>
+                </article>
+                <button
+                    onClick={() => {
+                        navigator.clipboard.writeText(markdown);
+                    }}
+                >
+                    Copy
+                </button>
+            </section>
+        </main>
+    );
 }
 
 export default App;
